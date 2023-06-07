@@ -19,7 +19,7 @@ namespace Project_agile_concrete_DAL
         public DbSet<Dienst> Diensten { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=baker.local.thomasmore.be\\GSQLEDU01,45001;Database=r0901225;User Id = r0901225;Password=sql4you;");
+            optionsBuilder.UseSqlServer("");
         }
     }
 }
