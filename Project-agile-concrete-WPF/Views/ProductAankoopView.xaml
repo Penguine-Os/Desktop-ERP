@@ -1,0 +1,534 @@
+﻿<UserControl
+    x:Class="Project_agile_concrete_WPF.Views.ProductAankoopView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:domain="clr-namespace:Project_agile_concrete_WPF.ViewModels"
+    xmlns:local="clr-namespace:Project_agile_concrete_WPF.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <domain:FactuurViewModel />
+    </UserControl.DataContext>
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+
+        <!--#region Right_Panel_DataGridContent-->
+        <!--<DataGrid AutoGenerateColumns="True"
+                  ItemsSource="{Binding Producten}"
+                  SelectedItem="{Binding GeselecteerdeProduct}"
+                  IsReadOnly="True"
+                  Foreground="White" 
+                  Background="{x:Null}">
+
+        </DataGrid>-->
+        <!--#endRegion-->
+        <materialDesign:DialogHost Identifier="ErrorStockDialog" 
+                                   Grid.ColumnSpan="2"
+                                   Background="Transparent"
+                                   OverlayBackground="{DynamicResource MaterialDesignDarkBackground}"
+                                   DialogTheme="Dark">
+
+        </materialDesign:DialogHost>
+        <materialDesign:DialogHost Identifier="ErrorDialog" 
+                                   Grid.ColumnSpan="2"
+                                   Background="Transparent"
+                                   OverlayBackground="{DynamicResource MaterialDesignDarkBackground}"
+                                   DialogTheme="Dark">
+
+        </materialDesign:DialogHost>
+
+        <!--#region Right_Panel_Card_ListView_Content-->
+        <ListView
+            x:Name="lbThubnailView"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            AutomationProperties.AutomationId="Items"
+            ItemsSource="{Binding ItemProducten}"
+            SelectedItem="{Binding GeselecteerdeProduct}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid HorizontalAlignment="Stretch" Columns="3" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+
+
+                    <materialDesign:Card
+                        Width="260"
+                        Margin="10"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{DynamicResource PrimaryHueMidBrush}">
+                        <Border
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="5"
+                            CornerRadius="10">
+
+
+                            <StackPanel>
+                                <materialDesign:ColorZone
+                                    Height="50"
+                                    Background="{StaticResource PrimaryHueMidBrush}"
+                                    Mode="SecondaryMid">
+                                    <TextBlock
+                                        Margin="10"
+                                        VerticalAlignment="center"
+                                        FontSize="18"
+                                        FontWeight="SemiBold"
+                                        Foreground="#EEEEEE"
+                                        Text="{Binding Naam}"
+                                        TextWrapping="Wrap" />
+                                </materialDesign:ColorZone>
+
+
+                                <Image
+                                    x:Name="productImg"
+                                    Height="Auto"
+                                    Stretch="UniformToFill">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="{Binding ImageSource}" />
+                                    </Image.Source>
+                                </Image>
+                                <!--<ImageBrush   ImageSource="{Binding ImgBestaandNaam}" Stretch="UniformToFill"/>-->
+
+
+                                <Canvas>
+                                    <Ellipse
+                                        Canvas.Left="185"
+                                        Canvas.Bottom="225"
+                                        Width="55"
+                                        Height="55"
+                                        Fill="White"
+                                        Stroke="{StaticResource PrimaryHueMidBrush}"
+                                        StrokeThickness="4" />
+                                    <TextBlock
+                                        Canvas.Left="183"
+                                        Canvas.Bottom="245"
+                                        Margin="12,12,0,0"
+                                        FontSize="12"
+                                        FontWeight="bold"
+                                        Foreground="#D65A31"
+                                        Text="{Binding Prijs, ConverterCulture='nl-BE', StringFormat=C}" />
+                                </Canvas>
+                                <Canvas Visibility="{Binding EcoVisibility}">
+                                    <Ellipse
+                                        Canvas.Left="200"
+                                        Canvas.Bottom="-20"
+                                        Width="40"
+                                        Height="40"
+                                        Fill="White"
+                                        Stroke="#D65A31"
+                                        StrokeThickness="4" />
+                                    <Image
+                                        x:Name="ecoIcon"
+                                        Canvas.Left="208"
+                                        Canvas.Bottom="-12"
+                                        Width="28"
+                                        Stretch="UniformToFill">
+                                        <Image.Source>
+                                            <BitmapImage UriSource="{Binding EcoIconSource}" />
+                                        </Image.Source>
+                                    </Image>
+
+                                </Canvas>
+                                <Grid Margin="8,24,8,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="3*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock
+                                        FontSize="16"
+                                        FontWeight="DemiBold"
+                                        Foreground="White"
+                                        Text="Categorie:" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="0,0,0,5"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Categorie.Naam}" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        FontSize="16"
+                                        FontWeight="DemiBold"
+                                        Foreground="White"
+                                        Text="Info:" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="0,0,0,5"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Prijs, StringFormat='Prijs per eenheid: € {0:0.00} prijs EXCL. Btw'}"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+
+
+                            </StackPanel>
+                        </Border>
+
+
+
+                    </materialDesign:Card>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!--  #endRegion  -->
+
+        <Border
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Background="{x:Null}"
+            BorderBrush="#D65A31"
+            BorderThickness="2,0,0,0" />
+
+
+        <materialDesign:DrawerHost
+            x:Name="DrawerHost"
+            Grid.Column="1"
+            Width="auto"
+            Panel.ZIndex="-100"
+            RightDrawerBackground="{DynamicResource PrimaryHueMidBrush}">
+
+
+            <!--#region Bottom_Drawer_Content-->
+
+            <materialDesign:DrawerHost.BottomDrawerContent>
+                <StackPanel>
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.5*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="6*" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="{Binding SubTotalMessageKey}" />
+                        <TextBlock
+                            Grid.Column="2"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="{Binding SubTotalMessageValue}" />
+                    </Grid>
+
+
+                    <Button
+                        Width="200"
+                        Margin="30"
+                        HorizontalAlignment="Center"
+                        materialDesign:RippleAssist.Feedback="#DD000000"
+                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                        Content="Sluit venster"
+                        Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                        ToolTip="Resource name: MaterialDesignRaisedAccentButton" />
+                </StackPanel>
+
+            </materialDesign:DrawerHost.BottomDrawerContent>
+            <!--#endregion-->
+
+            <!--#region Right_Panel_Content-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+
+
+                <StackPanel Grid.Column="1" Margin="15,5">
+                    <ComboBox
+                        Margin="0,5"
+                        Padding="9"
+                        materialDesign:HintAssist.Hint="Selecteer een Klant (optioneel)"
+                        materialDesign:ValidationAssist.Background="Transparent"
+                        DisplayMemberPath="Naam"
+                        Foreground="White"
+                        IsEditable="True"
+                        AutomationProperties.AutomationId="Klanten"
+                        ItemsSource="{Binding Klanten}"
+                        SelectedItem="{Binding GeselecteerdeKlant}"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                        <ComboBox.Text>
+                            
+                            <Binding
+                                Mode="TwoWay"
+                                Path="SearchQueryKlant"
+                                UpdateSourceTrigger="PropertyChanged">
+                                
+                                <!--<Binding.ValidationRules>
+                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>-->
+                            </Binding>
+                        </ComboBox.Text>
+                    </ComboBox>
+
+                    <ComboBox
+                        Margin="0,5"
+                        Padding="9"
+                        materialDesign:HintAssist.Hint="BTW Toeslagen: 0% | 6% | 21%"
+                        Foreground="White"
+                        IsEnabled="{Binding BtwIsEnabled}"
+                        ItemsSource="{Binding BtwToeslagen, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedIndex="{Binding BtwSelectedIndex}"
+                        SelectedValue="{Binding GeselecteerdeBtw}"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <ComboBox
+                        Margin="0,5"
+                        Padding="9"
+                        materialDesign:HintAssist.Hint="Winkel"
+                        AutomationProperties.AutomationId="Winkels"
+                        Foreground="White"
+                        ItemsSource="{Binding Winkels, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValue="{Binding GeselecteerdeWinkel}"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+
+                    <TextBox
+                        Margin="0,5"
+                        Padding="9"
+                        materialDesign:HintAssist.Hint="Klantenkorting"
+                        Foreground="White"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Text="{Binding KlantenKorting, StringFormat='- {0} %'}"
+                        Visibility="{Binding KlantenKortingVisibility}" />
+
+
+                    <TextBox
+                        Margin="0,30,0,5"
+                        Padding="9"
+                        materialDesign:HintAssist.Hint="Zoek een product"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Text="{Binding SearchQueryProductNaam, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <ComboBox
+                        Margin="0,5"
+                        Padding="9"
+                        materialDesign:HintAssist.Hint="Selecteer een Categorie"
+                        DisplayMemberPath="Naam"
+                        Foreground="White"
+                        ItemsSource="{Binding Categoriëen}"
+                        SelectedIndex="{Binding CategorieSelectedIndex}"
+                        SelectedValue="{Binding CategorieId, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValuePath="Id"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <TextBox
+                        x:Name="txtEenheid"
+                        Margin="0,5"
+                        Padding="9"
+                        materialDesign:HintAssist.Hint="Eenheid"
+                        AutomationProperties.AutomationId="Aantal"
+                        Foreground="White"
+                        PreviewTextInput="txtEenheid_PreviewTextInput"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Text="{Binding ProductEenheid, UpdateSourceTrigger=PropertyChanged}" />
+                    <Grid Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            Grid.Column="0"
+                            Width="100"
+                            HorizontalAlignment="Left"
+                            Command="{Binding}"
+                            CommandParameter="winkelKarItemToevoegen"
+                            AutomationProperties.AutomationId="Toevoegen"
+                            Content="{materialDesign:PackIcon Kind=CartArrowDown,
+                                                              Size=22}"
+                            Style="{StaticResource MaterialDesignOutlinedLightButton}" />
+
+                        <Button
+                            Grid.Column="1"
+                            Width="100"
+                            HorizontalAlignment="Center"
+                            Command="{Binding}"
+                            CommandParameter="resetSearchQuery"
+                            Content="{materialDesign:PackIcon Kind=BackupRestore,
+                                                              Size=22}"
+                            Style="{StaticResource MaterialDesignOutlinedLightButton}" />
+
+                        <Button
+                            Grid.Column="2"
+                            Width="100"
+                            HorizontalAlignment="Right"
+                            Command="{Binding}"
+                            CommandParameter="winkelKarItemVerwijderen"
+                            Content="{materialDesign:PackIcon Kind=CartArrowUp,
+                                                              Size=22}"
+                            Style="{StaticResource MaterialDesignOutlinedSecondaryLightButton}" />
+                    </Grid>
+
+
+                    <DataGrid
+                        Margin="0,5"
+                        AutoGenerateColumns="False"
+                        Background="{x:Null}"
+                        Foreground="White"
+                        IsReadOnly="true"
+                        ItemsSource="{Binding StukkenLijstProducten, UpdateSourceTrigger=PropertyChanged}"
+                        RowHeight="50"
+                        SelectedItem="{Binding ProductFactuur}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Product.Naam}" Header="Product naam" />
+                            <DataGridTextColumn Binding="{Binding Product.Prijs}" Header="Prijs" />
+                            <DataGridTextColumn Binding="{Binding Hoeveelheid, UpdateSourceTrigger=PropertyChanged}" Header="Eenheid" />
+                            <DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn.CellTemplate>
+
+
+
+                                    <DataTemplate>
+
+                                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                            <Button
+                                                x:Name="btnVerhoog"
+                                                Margin="100,0,0,0"
+                                                Click="btnVerhoog_Click"
+                                                Content="{materialDesign:PackIcon Kind=NumericPositive1,
+                                                                                  Size=22}"
+                                                Style="{StaticResource MaterialDesignOutlinedLightButton}" />
+
+                                            <Button
+                                                x:Name="btnVerlaag"
+                                                Margin="20,0,0,0"
+                                                Click="btnVerlaag_Click"
+                                                Content="{materialDesign:PackIcon Kind=NumericNegative1,
+                                                                                  Size=22}"
+                                                Style="{StaticResource MaterialDesignOutlinedSecondaryLightButton}" />
+                                        </StackPanel>
+
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid
+                        Margin="0,50,0,0"
+                        AutoGenerateColumns="False"
+                        Background="{x:Null}"
+                        Foreground="White"
+                        IsReadOnly="true"
+                        ItemsSource="{Binding StukkenLijstDiensten, UpdateSourceTrigger=PropertyChanged}"
+                        RowHeight="50"
+                        SelectedItem="{Binding ProductFactuur}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Dienst.Naam}" Header="Dienst" />
+                            <DataGridTextColumn Binding="{Binding Dienst.Prijs}" Header="Prijs" />
+                            <DataGridTextColumn Binding="{Binding Hoeveelheid, UpdateSourceTrigger=PropertyChanged}" Header="Aantal uren" />
+                            <DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn.CellTemplate>
+
+
+
+                                    <DataTemplate>
+
+                                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                            <Button
+                                                x:Name="btnVerhoog"
+                                                Margin="100,0,0,0"
+                                                Click="btnVerhoog_Click"
+                                                Content="{materialDesign:PackIcon Kind=NumericPositive1,
+                                                                                  Size=22}"
+                                                Style="{StaticResource MaterialDesignOutlinedLightButton}" />
+
+                                            <Button
+                                                x:Name="btnVerlaag"
+                                                Margin="20,0,0,0"
+                                                Click="btnVerlaag_Click"
+                                                Content="{materialDesign:PackIcon Kind=NumericNegative1,
+                                                                                  Size=22}"
+                                                Style="{StaticResource MaterialDesignOutlinedSecondaryLightButton}" />
+                                        </StackPanel>
+
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                </StackPanel>
+
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="15,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Button
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                        IsEnabled="{Binding StukkenLijstIsOpgevuld}"
+                        Style="{StaticResource MaterialDesignOutlinedLightButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="25"
+                                Height="25"
+                                Kind="CalculatorVariantOutline" />
+                            <TextBlock
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Totaal" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        x:Name="btn_OrderPlaatsen"
+                        Grid.Column="1"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        Click="btn_OrderPlaatsen_Click"
+                        AutomationProperties.AutomationId="Verzenden"
+                        IsEnabled="{Binding StukkenLijstIsOpgevuld}"
+                        Style="{StaticResource MaterialDesignOutlinedLightButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="25"
+                                Height="25"
+                                Kind="StoreCheckOutline" />
+                            <TextBlock
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Voltooien" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+
+
+
+            </Grid>
+            <!--#endregion-->
+
+
+        </materialDesign:DrawerHost>
+
+
+    </Grid>
+</UserControl>

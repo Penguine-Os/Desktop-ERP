@@ -1,0 +1,298 @@
+﻿<UserControl
+    x:Class="Project_agile_concrete_WPF.Views.ProductView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:data="clr-namespace:Project_agile_concrete_WPF.ViewModels"
+    xmlns:local="clr-namespace:Project_agile_concrete_WPF.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <data:ProductViewModel />
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50 px" />
+            <RowDefinition Height="60 px" />
+            <RowDefinition Height="60 px" />
+            <RowDefinition Height="60 px" />
+            <RowDefinition Height="60 px" />
+            <RowDefinition Height="60 px" />
+            <RowDefinition Height="60 px" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" MinWidth="166" />
+            <ColumnDefinition Width="60*" />
+            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="60*" />
+            <ColumnDefinition Width="60*" />
+            <ColumnDefinition Width="60*" />
+            <ColumnDefinition Width="60*" />
+            <ColumnDefinition Width="60*" />
+        </Grid.ColumnDefinitions>
+
+        <materialDesign:DialogHost
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="7"
+            Background="Transparent"
+            DialogTheme="Dark"
+            Identifier="DeleteDialog"
+            OverlayBackground="{DynamicResource MaterialDesignDarkBackground}" />
+
+        <materialDesign:DialogHost
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="7"
+            DialogTheme="Dark"
+            Identifier="CreateUpdateDialog"
+            OverlayBackground="{DynamicResource MaterialDesignDarkBackground}" />
+
+
+
+
+        <!--<ComboBox Grid.Column="0" Grid.Row="0" Padding="9" Margin="5,0,0,0"
+            x:Name="FilterComboBox"
+            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+            materialDesign:HintAssist.Hint="Filter"
+            ItemsSource="{Binding Categorien}"   SelectedItem="{Binding SearchQueryCategory,UpdateSourceTrigger=PropertyChanged}" Background="White" BorderBrush="#BC000000"/>-->
+
+        <ComboBox
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0,0,0,5"
+            Padding="9"
+            materialDesign:HintAssist.Hint="Filter"
+            Foreground="White"
+            ItemsSource="{Binding Categorien}"
+            SelectedItem="{Binding SearchQueryCategory, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+
+        <!--<TextBox  Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding SearchQueryName}"   materialDesign:HintAssist.Hint="product zoeken" Grid.Row="0" Grid.Column="2" Margin="2,8,4,8" Padding="9"  Background="White" />-->
+
+        <TextBox
+            x:Name="txtproduct"
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="0,0,0,5"
+            Padding="9"
+            materialDesign:HintAssist.Hint="product zoeken"
+            Foreground="White"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+            Text="{Binding SearchQueryName}" />
+
+        <Button
+            x:Name="btnundo"
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="4,8,4,8"
+            Padding="8"
+            Background="#FF181D24"
+            BorderBrush="#FF00695C"
+            Command="{Binding}"
+            CommandParameter="ProductenLijst"
+            Content="{materialDesign:PackIcon Kind=Undo}"
+            Foreground="#FF00695C" />
+        <Button
+            x:Name="btnSearch"
+            Grid.Row="0"
+            Grid.Column="3"
+            Margin="2,10,1,8"
+            Padding="9"
+            Background="#FF181D24"
+            BorderBrush="#FF00695C"
+            Command="{Binding SearchQueryName, UpdateSourceTrigger=PropertyChanged}"
+            Content="{materialDesign:PackIcon Magnify}"
+            Foreground="#FF00695C" />
+        <Button
+            x:Name="btnAdd"
+            Grid.Row="0"
+            Grid.Column="5"
+            Margin="2,8,1,8"
+            Padding="8"
+            Background="#FF181D24"
+            BorderBrush="#FF00695C"
+            Command="{Binding}"
+            CommandParameter="ProductToevoegen"
+            Content="{materialDesign:PackIcon PlusCircleOutline}"
+            Foreground="#FF00695C"
+            IsEnabled="{Binding IsEnabledOnDialogOpen}" />
+        <Button
+            x:Name="btnEdit"
+            Grid.Row="0"
+            Grid.Column="6"
+            Margin="2,8,1,8"
+            Padding="8"
+            Background="#FF181D24"
+            BorderBrush="#FF00695C"
+            Command="{Binding}"
+            CommandParameter="ProductBewerken"
+            Content="{materialDesign:PackIcon SquareEditOutline}"
+            Foreground="#FF00695C"
+            IsEnabled="{Binding IsEnabledOnDialogOpen}" />
+        <Button
+            x:Name="btnDelete"
+            Grid.Row="0"
+            Grid.Column="7"
+            Margin="2,8,7,8"
+            Padding="8"
+            Background="#FF181D24"
+            BorderBrush="#FF00695C"
+            Command="{Binding}"
+            CommandParameter="ProductVerwijderen"
+            Content="{materialDesign:PackIcon Delete}"
+            Foreground="#FF00695C"
+            IsEnabled="{Binding IsEnabledOnDialogOpen}" />
+
+
+
+        <DataGrid
+            Grid.Row="1"
+            Grid.RowSpan="7"
+            Grid.ColumnSpan="5"
+            Margin="5,5,5,5"
+            AutoGenerateColumns="False"
+            Background="{x:Null}"
+            IsReadOnly="true"
+            ItemsSource="{Binding Producten}"
+            SelectedItem="{Binding GeselecteerdeProduct}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="id" />
+                <DataGridTextColumn Binding="{Binding Naam}" Header="Product naam" />
+                <DataGridTextColumn Binding="{Binding Categorie.Naam}" Header="Categorie" />
+                <DataGridCheckBoxColumn Binding="{Binding EcoCheque}" Header="EcoCheques" />
+                <DataGridTextColumn Binding="{Binding StockTot}" Header="In stock" />
+                <DataGridTextColumn Binding="{Binding Prijs, StringFormat=c2}" Header="Unit price" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border
+            Grid.Row="1"
+            Grid.RowSpan="16"
+            Grid.Column="5"
+            Background="{x:Null}"
+            BorderBrush="#D65A31"
+            BorderThickness="2,0,0,0" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="5"
+            Grid.ColumnSpan="3"
+            Margin="0,5"
+            Padding="9"
+            Content="{Binding GeselecteerdeProduct.Naam}" />
+
+
+        <TextBox
+            x:Name="txtstock"
+            Grid.Row="2"
+            Grid.Column="5"
+            Grid.ColumnSpan="3"
+            Margin="0,5"
+            Padding="9"
+            materialDesign:HintAssist.Hint="Aantal in stock"
+            Foreground="White"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+            Text="{Binding StockAantal}" />
+        <ComboBox
+            Grid.Row="3"
+            Grid.Column="5"
+            Grid.ColumnSpan="3"
+            Margin="0,5"
+            Padding="9"
+            materialDesign:HintAssist.Hint="Winkel"
+            Foreground="White"
+            ItemsSource="{Binding Winkels, UpdateSourceTrigger=PropertyChanged}"
+            SelectedValue="{Binding StockWinkel}"
+            Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+
+        <DataGrid
+            Grid.Row="4"
+            Grid.RowSpan="4"
+            Grid.Column="5"
+            Grid.ColumnSpan="3"
+            Margin="5,5,5,5"
+            AutoGenerateColumns="False"
+            Background="{x:Null}"
+            IsReadOnly="true"
+            ItemsSource="{Binding Stocks, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding GeselecteerdeStock}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Product.Naam}" Header="Product naam" />
+                <DataGridTextColumn Binding="{Binding Winkel.Naam}" Header="Store" />
+                <DataGridTextColumn Binding="{Binding Aantal}" Header="aantal" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <Button
+            Grid.Row="8"
+            Grid.Column="5"
+            Grid.ColumnSpan="2"
+            Margin="25,14,0,14"
+            HorizontalAlignment="Left"
+            Command="{Binding}"
+            CommandParameter="StockToevoegen"
+            Style="{StaticResource MaterialDesignOutlinedLightButton}">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon
+                    Width="25"
+                    Height="25"
+                    Kind="PlusCircleOutline" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="Create" />
+            </StackPanel>
+        </Button>
+
+        <Button
+            Grid.Row="8"
+            Grid.Column="6"
+            Grid.ColumnSpan="2"
+            Margin="0,14,0,14"
+            HorizontalAlignment="Left"
+            Command="{Binding}"
+            CommandParameter="StockBewerken"
+            Style="{StaticResource MaterialDesignOutlinedLightButton}">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon
+                    Width="25"
+                    Height="25"
+                    Kind="SquareEditOutline" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="Update" />
+            </StackPanel>
+        </Button>
+
+        <Button
+            Grid.Row="8"
+            Grid.Column="6"
+            Grid.ColumnSpan="2"
+            Margin="130,14,0,14"
+            HorizontalAlignment="Left"
+            Command="{Binding}"
+            CommandParameter="StockVerwijderen"
+            Style="{StaticResource MaterialDesignOutlinedLightButton}">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon
+                    Width="25"
+                    Height="25"
+                    Kind="Delete" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="Delete" />
+            </StackPanel>
+        </Button>
+
+
+    </Grid>
+</UserControl>

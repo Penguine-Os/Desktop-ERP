@@ -1,0 +1,123 @@
+﻿<UserControl
+    x:Class="Project_agile_concrete_WPF.Views.Dialogs.AddProductDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:data="clr-namespace:Project_agile_concrete_WPF.ViewModels.DialogViewModels"
+    xmlns:local="clr-namespace:Project_agile_concrete_WPF.Views.Dialogs"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <data:ProductCrudDialogViewModel />
+    </UserControl.DataContext>
+    <Border
+        Background="Transparent"
+        BorderThickness="5"
+        CornerRadius="20">
+        <Grid Background="Transparent">
+
+            <StackPanel
+                x:Name="InputFields"
+                Margin="10,20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Visibility="{Binding iscreatevisible}">
+
+
+
+                <TextBox
+                    x:Name="txtproductname"
+                    Margin="0,0,0,30"
+                    materialDesign:HintAssist.FloatingOffset="0,-20"
+                    materialDesign:HintAssist.Hint="Product name"
+                    BorderBrush="#D65A31"
+                    BorderThickness="0,0,0,1.5"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Text="{Binding ProductRecord.Naam, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ComboBox
+                    x:Name="cbcategory"
+                    Margin="0,0,0,30"
+                    materialDesign:HintAssist.FloatingOffset="0,-20"
+                    materialDesign:HintAssist.Hint="Product category"
+                    BorderBrush="#D65A31"
+                    ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding GeselecteerdeCategorie}"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Border
+                        Margin="0,20,0,30"
+                        BorderBrush="#FFD65A31"
+                        BorderThickness="0,0,0,1.5">
+                        <TextBlock>
+                            Unit price
+                        </TextBlock>
+                    </Border>
+                    <TextBox
+                        x:Name="txtprice"
+                        Grid.Column="1"
+                        Margin="30,0,0,30"
+                        materialDesign:HintAssist.FloatingOffset="0,-20"
+                        materialDesign:HintAssist.Hint="€"
+                        BorderBrush="#D65A31"
+                        BorderThickness="0,0,0,1.5"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Text="{Binding ProductRecord.Prijs, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+
+
+
+                </Grid>
+                <WrapPanel Margin="0,0,0,30">
+
+                    <CheckBox
+                        x:Name="chxEcoCheques"
+                        Margin="0,0,20,0"
+                        materialDesign:CheckBoxAssist.CheckBoxSize="30"
+                        IsChecked="{Binding ProductRecord.EcoCheque}"
+                        Style="{StaticResource MaterialDesignSwitchDarkToggleButton}" />
+
+                    <TextBlock Text="Eco - Cheques" />
+                </WrapPanel>
+
+                <DockPanel Margin="0,0,0,30" HorizontalAlignment="Center">
+                    <Button
+                        x:Name="btnCancel"
+                        Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+                        Content="Cancel"
+                        DockPanel.Dock="Left"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryButton}"
+                        ToolTip="Resource name: MaterialDesignPaperDarkButton" />
+
+                    <Separator Width="200" Background="Transparent" />
+
+                    <Button
+                        x:Name="btnCreate"
+                        Width="100"
+                        Command="{Binding}"
+                        CommandParameter="{Binding CommandName}"
+                        Content="{Binding CommandName}"
+                        DockPanel.Dock="Right"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        ToolTip="Resource name: MaterialDesignPaperDarkButton" />
+                </DockPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

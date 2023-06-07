@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Project_agile_concrete_DAL</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20221121123125_Update database ProductFactuur.cs" />
+    <Compile Remove="Migrations\20221121123125_Update database ProductFactuur.Designer.cs" />
+    <Compile Remove="Migrations\20221121123310_Update database ProductFactuur.cs" />
+    <Compile Remove="Migrations\20221121123310_Update database ProductFactuur.Designer.cs" />
+    <Compile Remove="Migrations\20221204205322_AddDiensten.cs" />
+    <Compile Remove="Migrations\20221204205322_AddDiensten.Designer.cs" />
+    <Compile Remove="Migrations\20221204205428_AddDiensten.cs" />
+    <Compile Remove="Migrations\20221204205428_AddDiensten.Designer.cs" />
+    <Compile Remove="Migrations\20221204205524_AddDiensten.cs" />
+    <Compile Remove="Migrations\20221204205524_AddDiensten.Designer.cs" />
+    <Compile Remove="Migrations\20221204210422_AddDiensten.cs" />
+    <Compile Remove="Migrations\20221204210422_AddDiensten.Designer.cs" />
+    <Compile Remove="Migrations\20221204212039_AddDiensten.cs" />
+    <Compile Remove="Migrations\20221204212039_AddDiensten.Designer.cs" />
+    <Compile Remove="Migrations\20221204213144_AddDiensten.cs" />
+    <Compile Remove="Migrations\20221204213144_AddDiensten.Designer.cs" />
+    <Compile Remove="Migrations\20221204214138_AddDiensten.cs" />
+    <Compile Remove="Migrations\20221204214138_AddDiensten.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.20">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Project-agile-concrete-models\Project-agile-concrete-models.csproj" />
+  </ItemGroup>
+
+</Project>
